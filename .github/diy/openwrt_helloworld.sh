@@ -22,7 +22,7 @@ git clone --depth 1 -b master https://github.com/fw876/helloworld && mv -n hello
 git clone --depth 1 -b main https://github.com/nikkinikki-org/OpenWrt-nikki && mv -n OpenWrt-nikki/{luci-app-nikki,nikki} ./ && rm -rf OpenWrt-nikki
 git clone --depth 1 -b dev https://github.com/vernesong/OpenClash && mv -n OpenClash/luci-app-openclash ./ && rm -rf OpenClash
 git clone --depth 1 -b master https://github.com/immortalwrt/homeproxy luci-app-homeproxy
-git clone --depth 1 https://github.com/QiuSimons/luci-app-daed dae && mv -n dae/{luci-app-daed,daed} ./ && rm -rf luci-app-daed
+git clone --depth 1 https://github.com/QiuSimons/luci-app-daed dae && mv -n dae/{luci-app-daed,daed} ./ && rm -rf dae
 git clone --depth 1 https://github.com/oppen321/libcron
 git clone --depth 1 https://github.com/oppen321/pdnsd
 git clone --depth 1 https://github.com/sbwml/v2ray-geodata
