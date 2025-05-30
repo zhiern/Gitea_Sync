@@ -15,16 +15,9 @@ mv -n `find $1/* -maxdepth 0 -type d` ./
 rm -rf $1
 }
 
-git clone --depth 1 -b main https://github.com/xiaorouji/openwrt-passwall && mv -n openwrt-passwall/luci-app-passwall ./ && rm -rf openwrt-passwall
-git clone --depth 1 -b main https://github.com/xiaorouji/openwrt-passwall2 && mv -n openwrt-passwall2/luci-app-passwall2 ./ && rm -rf openwrt-passwall2
-git clone --depth 1 -b main https://github.com/xiaorouji/openwrt-passwall-packages && mv -n openwrt-passwall-packages/{chinadns-ng,dns2socks,geoview,hysteria,ipt2socks,microsocks,naiveproxy,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,sing-box,tcping,trojan-plus,tuic-client,v2ray-plugin,xray-core,xray-plugin} ./ && rm -rf openwrt-passwall-packages
-git clone --depth 1 -b master https://github.com/fw876/helloworld && mv -n helloworld/{luci-app-ssr-plus,gn,trojan,v2ray-core,dnsproxy,dns2tcp,dns2socks-rust,lua-neturl,shadow-tls,redsocks2} ./ && rm -rf helloworld
-git clone --depth 1 -b main https://github.com/nikkinikki-org/OpenWrt-nikki && mv -n OpenWrt-nikki/{luci-app-nikki,nikki} ./ && rm -rf OpenWrt-nikki
-git clone --depth 1 -b dev https://github.com/vernesong/OpenClash && mv -n OpenClash/luci-app-openclash ./ && rm -rf OpenClash
-git clone --depth 1 -b master https://github.com/immortalwrt/homeproxy luci-app-homeproxy
+git clone --depth 1 -b v5 https://github.com/sbwml/openwrt_helloworld && mv -n openwrt_helloworld/{chinadns-ng,dns2socks-rust,dns2socks,dns2tcp,geoview,hysteria,ipt2socks,lua-neturl,luci-app-homeproxy,luci-app-nikki,luci-app-openclash,luci-app-passwall,luci-app-passwall2,luci-app-ssr-plus,microsocks,naiveproxy,nikki,pdnsd,redsocks2,shadow-tls,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,sing-box,tcping,trojan-plus,trojan,tuic-client,v2ray-core,v2ray-plugin,xray-core,xray-plugin} ./ && rm -rf openwrt_helloworld
 git clone --depth 1 https://github.com/QiuSimons/luci-app-daed dae && mv -n dae/{luci-app-daed,daed} ./ && rm -rf dae
 git clone --depth 1 https://github.com/oppen321/libcron
-git clone --depth 1 https://github.com/oppen321/pdnsd
 git clone --depth 1 https://github.com/sbwml/v2ray-geodata
 
 sed -i \
