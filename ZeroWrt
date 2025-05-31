@@ -169,7 +169,7 @@ show_menu() {
         color_output "\e[36m┃\e[0m  7. 一键加载驱动                       \e[36m┃\e[0m"
         color_output "\e[36m┃\e[0m  8. IPv6 配置向导                      \e[36m┃\e[0m"                  
         color_output "\e[36m┃\e[0m  9. 网络模式配置向导                   \e[36m┃\e[0m"
-        color_output "\e[36m┃\e[0m  10. iStoreOS 风格化                    \e[36m┃\e[0m" 
+        color_output "\e[36m┃\e[0m  10. iStoreOS 风格化                   \e[36m┃\e[0m" 
         color_output "\e[36m┃\e[0m  11. 系统信息查询                      \e[36m┃\e[0m"           
         color_output "\e[36m┃\e[0m  12. 检测更新                          \e[36m┃\e[0m"
         color_output "\e[36m┃\e[0m  0. 退出                               \e[36m┃\e[0m"
@@ -188,7 +188,7 @@ show_menu() {
         color_output "\e[36m┃\e[0m  7. One-click loading of     drivers  \e[36m┃\e[0m"
         color_output "\e[36m┃\e[0m  8. IPv6-Wizard                       \e[36m┃\e[0m"         
         color_output "\e[36m┃\e[0m  9. network_mode_wizard               \e[36m┃\e[0m"
-        color_output "\e[36m┃\e[0m  10. iStoreOS Styling                  \e[36m┃\e[0m"
+        color_output "\e[36m┃\e[0m  10. iStoreOS Styling                 \e[36m┃\e[0m"
         color_output "\e[36m┃\e[0m  11. System information query         \e[36m┃\e[0m"    
         color_output "\e[36m┃\e[0m  12. Check for Updates                \e[36m┃\e[0m"
         color_output "\e[36m┃\e[0m  0. Exit                              \e[36m┃\e[0m"
@@ -1272,7 +1272,7 @@ ipv6_wizard() {
     color_output "1. $(if [[ "$LANG_CHOICE" == "zh" ]]; then echo "开启 IPv6 功能"; else echo "Enable IPv6"; fi)"
     color_output "2. $(if [[ "$LANG_CHOICE" == "zh" ]]; then echo "关闭 IPv6 功能"; else echo "Disable IPv6"; fi)"
     color_output "3. $(if [[ "$LANG_CHOICE" == "zh" ]]; then echo "高级 IPv6 设置"; else echo "Advanced IPv6 Settings"; fi)"
-    color_output "0. $(if [[ "$LANG_CHOICE" == "zh" ]]; then echo "返回主菜单"; else echo "Back to Main Menu"; fi)"
+    color_output "0. $(if [[ "$LANG_CHOICE" == "zh" ]]; then echo "返回IPv6 配置向导"; else echo "Back to Wizard"; fi)"
     
     read -p "$(if [[ "$LANG_CHOICE" == "zh" ]]; then echo "请输入选择 [0-3]: "; else echo "Enter your choice [0-3]: "; fi)" ipv6_choice
     
@@ -1301,7 +1301,6 @@ ipv6_wizard() {
             ;;
     esac
     
-    read -p "$(if [[ "$LANG_CHOICE" == "zh" ]]; then echo "按 Enter 键返回 IPv6 向导..."; else echo "Press Enter to return to IPv6 wizard..."; fi)" 
     ipv6_wizard
 }
 
@@ -1730,6 +1729,7 @@ advanced_network_settings() {
             configure_hostname
             ;;
         0)
+        	  network_mode_wizard
             return
             ;;
         *)
