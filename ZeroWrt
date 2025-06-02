@@ -481,7 +481,7 @@ install_apps() {
             color_output "\e[36m┃\e[0m  2. Deploy XiaoYa Alist                  \e[36m┃\e[0m"
             color_output "\e[36m┃\e[0m  3. Deploy Subconverter                  \e[36m┃\e[0m"
             color_output "\e[36m┃\e[0m  4. Deploy AdGuardhome                   \e[36m┃\e[0m"
-            color_output "\e[36m┃\e[0m  5. Gitea-PostgreSQL                     \e[36m┃\e[0m"
+            color_output "\e[36m┃\e[0m  5. Deploy Gitea-PostgreSQL              \e[36m┃\e[0m"
             color_output "\e[36m┃\e[0m  6. Deploy SunPanel                      \e[36m┃\e[0m"        
             color_output "\e[36m┃\e[0m  0. Back to Main Menu                    \e[36m┃\e[0m"
             color_output "\e[36m┃                                          ┃\e[0m"
