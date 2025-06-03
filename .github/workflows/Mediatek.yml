@@ -1,49 +1,30 @@
 name: Mediatek
 
 on:
-  workflow_dispatch:
   schedule:
-   - cron: 0 17 * * *
+    - cron: '0 2 * * *' # 每天 02:00 UTC 自动同步
+  workflow_dispatch: # 支持手动触发
 
 jobs:
-  job_Zero:
-    if: github.event.repository.owner.id == github.event.sender.id || ! github.event.sender.id
-    runs-on: ubuntu-24.04
-
-    name: Update ZeroWrt
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [Mediatek]    
+  sync:
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@main
-      with:
-        fetch-depth: 0
+      - name: Checkout source repository
+        uses: actions/checkout@v4
+        with:
+          repository: padavanonly/immortalwrt-mt798x-24.10
+          ref: 2410
+          fetch-depth: 0
 
-    - name: Initialization environment
-      run : |
-        git config --global user.email "zhiern@users.noreply.github.com"
-        git config --global user.name "actions-user"
-        sudo timedatectl set-timezone "Asia/Shanghai"
+      - name: Set up Git identity
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-    - name: Clone packages
-      run: |
-        cd $GITHUB_WORKSPACE
-        git clone -b 2410 https://github.com/padavanonly/immortalwrt-mt798x-24.10.git ${{matrix.target}}
-
-    - name: Upload
-      env: 
-        ACCESS_TOKEN: ${{ secrets.TOKEN_zhiern }}
-      run: |
-        cd $GITHUB_WORKSPACE/${{matrix.target}}
-          git add .
-          git commit -am "同步更新"
-          git push --quiet "https://zhao:zj3753813@git.kejizero.online/zhao/ZeroWrt.git" HEAD:Mediatek
-
-    - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@main
-      with:
-        retain_days: 1
-        keep_minimum_runs: 1
+      - name: Push to Gitea Mediatek branch
+        env:
+          GITEA_PAT: ${{ secrets.GITEA_PAT }}
+        run: |
+          git remote add gitea https://zhao:${GITEA_PAT}@git.kejizero.online/zhao/ZeroWrt.git
+          git push --force gitea HEAD:Mediatek
