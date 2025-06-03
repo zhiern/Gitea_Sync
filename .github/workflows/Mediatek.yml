@@ -32,22 +32,15 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         git clone -b 2410 https://github.com/padavanonly/immortalwrt-mt798x-24.10.git ${{matrix.target}}
-        cd ${{matrix.target}}
-        git rm -r --cache * >/dev/null 2>&1 &
 
     - name: Upload
       env: 
         ACCESS_TOKEN: ${{ secrets.TOKEN_zhiern }}
       run: |
         cd $GITHUB_WORKSPACE/${{matrix.target}}
-        if git status --porcelain | grep .; then
           git add .
           git commit -am "同步更新"
           git push --quiet "https://zhao:zj3753813@git.kejizero.online/zhao/ZeroWrt.git" HEAD:Mediatek
-        else
-          echo "nothing to commit"
-          exit 0
-        fi || exit 0
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@main
