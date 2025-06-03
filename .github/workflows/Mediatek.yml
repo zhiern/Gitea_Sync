@@ -1,4 +1,4 @@
-name: Full sync 2410 branch to ZeroWrt/Mediatek
+name: Mediatek
 
 on:
   workflow_dispatch:
