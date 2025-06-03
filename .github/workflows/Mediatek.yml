@@ -34,7 +34,6 @@ jobs:
         git clone -b 2410 https://github.com/padavanonly/immortalwrt-mt798x-24.10.git ${{matrix.target}}
         cd ${{matrix.target}}
         git rm -r --cache * >/dev/null 2>&1 &
-        rm -rf `find ./* -maxdepth 0 -type d ! -name "commit"` >/dev/null 2>&1
 
     - name: Upload
       env: 
