@@ -26,5 +26,8 @@ jobs:
         env:
           GITEA_PAT: ${{ secrets.GITEA_PAT }}
         run: |
-          git remote add gitea https://zhao:${GITEA_PAT}@git.kejizero.online/zhao/ZeroWrt.git
-          git push --force gitea HEAD:Mediatek
+          git init
+          git checkout -b Mediatek
+          git commit -m "同步更新"
+          git remote add origin https://zhao:${GITEA_PAT}@git.kejizero.online/zhao/ZeroWrt.git
+          git push -u origin Mediatek
