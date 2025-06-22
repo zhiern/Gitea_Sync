@@ -1,41 +1,32 @@
-name: padavanonly_sync
+name: Sync to Gitea
 
 on:
-  push:
-    paths:
-      - '.github/workflows/padavanonly_sync.yml'
-  schedule:
-    - cron: '0 1 * * *'
   workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'  # 每天凌晨 3 点同步一次，可修改
 
 jobs:
-  job_Sync:
-    if: github.event.repository.owner.id == github.event.sender.id || ! github.event.sender.id
+  sync:
     runs-on: ubuntu-latest
 
-    name: Clone and push openwrt-24.10 branch
     steps:
-    - name: Set git identity and timezone
-      run: |
-        git config --global user.email "zhiern@users.noreply.github.com"
-        git config --global user.name "actions-user"
-        sudo timedatectl set-timezone "Asia/Shanghai"
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+        with:
+          repository: padavanonly/immortalwrt-mt798x-24.10
+          ref: openwrt-24.10-6.6
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Clone upstream with full history
-      run: |
-        git clone --branch openwrt-24.10-6.6 https://github.com/padavanonly/immortalwrt-mt798x-24.10.git upstream
-        cd upstream
+      - name: Set Git identity
+        run: |
+          git config --global user.name "oppen321"
+          git config --global user.email "zj18139624826@gmail.com"
 
-    - name: Push to KejiZero Git Server
-      env:
-        ACCESS_TOKEN: ${{ secrets.TOKEN_zhiern }}
-      run: |
-        cd upstream
-        git remote add openwrt-24.10 https://zhao:zj3753813@git.kejizero.online/zhao/immortalwrt-mt798x-24.10.git
-        git push openwrt-24.10 openwrt-24.10:refs/heads/openwrt-24.10
-
-    - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@main
-      with:
-        retain_days: 1
-        keep_minimum_runs: 1
+      - name: Force push to Gitea
+        env:
+          GITEA_URL: ${{ secrets.GITEA_URL }}
+          GITEA_USERNAME: ${{ secrets.GITEA_USERNAME }}
+          GITEA_PASSWORD: ${{ secrets.GITEA_PASSWORD }}
+        run: |
+          git remote add gitea "https://${GITEA_USERNAME}:${GITEA_PASSWORD}@${GITEA_URL#https://}/${GITEA_USERNAME}/immortalwrt-mt798x-24.10.git"
+          git push gitea HEAD:main --force
