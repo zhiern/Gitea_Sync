@@ -1,4 +1,4 @@
-name: SyncImmortalWrt
+name: padavanonly_sync
 
 on:
   push:
