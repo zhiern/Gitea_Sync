@@ -1,4 +1,4 @@
-name: Sync to Gitea
+name: Sync to Padavanonly
 
 on:
   workflow_dispatch:
