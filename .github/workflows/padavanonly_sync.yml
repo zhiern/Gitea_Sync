@@ -28,5 +28,5 @@ jobs:
           GITEA_USERNAME: ${{ secrets.GITEA_USERNAME }}
           GITEA_PASSWORD: ${{ secrets.GITEA_PASSWORD }}
         run: |
-          git remote add gitea "https://${GITEA_USERNAME}:${GITEA_PASSWORD}@${GITEA_URL#https://}/${GITEA_USERNAME}/immortalwrt-mt798x-24.10.git"
+          git remote add gitea "https://${GITEA_USERNAME}:${GITEA_PASSWORD}@git.kejizero.online/zhao/openwrt_helloworld.git"
           git push gitea HEAD:main --force
