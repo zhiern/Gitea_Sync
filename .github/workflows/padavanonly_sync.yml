@@ -3,7 +3,7 @@ name: padavanonly_sync
 on:
   push:
     paths:
-      - '.github/workflows/openwrt_sync.yml'
+      - '.github/workflows/padavanonly_sync.yml'
   schedule:
     - cron: '0 1 * * *'
   workflow_dispatch:
@@ -31,8 +31,8 @@ jobs:
         ACCESS_TOKEN: ${{ secrets.TOKEN_zhiern }}
       run: |
         cd upstream
-        git remote add myorigin https://zhao:zj3753813@git.kejizero.online/zhao/immortalwrt-mt798x-24.10.git
-        git push myorigin openwrt-24.10:refs/heads/openwrt-24.10
+        git remote add openwrt-24.10 https://zhao:zj3753813@git.kejizero.online/zhao/immortalwrt-mt798x-24.10.git
+        git push openwrt-24.10 openwrt-24.10:refs/heads/openwrt-24.10
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@main
