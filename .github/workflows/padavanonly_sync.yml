@@ -1,0 +1,42 @@
+name: SyncImmortalWrt
+
+on:
+  push:
+    paths:
+      - '.github/workflows/openwrt_sync.yml'
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  job_Sync:
+    if: github.event.repository.owner.id == github.event.sender.id || ! github.event.sender.id
+    runs-on: ubuntu-latest
+
+    name: Sync immortalwrt-mt798x-24.10
+    steps:
+    - name: Set git identity and timezone
+      run: |
+        git config --global user.email "zhiern@users.noreply.github.com"
+        git config --global user.name "actions-user"
+        sudo timedatectl set-timezone "Asia/Shanghai"
+
+    - name: Clone upstream repository
+      run: |
+        git clone --depth=1 --branch openwrt-24.10-6.6 https://github.com/padavanonly/immortalwrt-mt798x-24.10 immortalwrt-mt798x-24.10
+        cd immortalwrt-mt798x-24.10
+        git remote rename origin immortalwrt-mt798x-24.10
+
+    - name: Push to KejiZero Git Server
+      env:
+        ACCESS_TOKEN: ${{ secrets.TOKEN_zhiern }}
+      run: |
+        cd immortalwrt-mt798x-24.10
+        git remote add origin https://zhao:zj3753813@git.kejizero.online/zhao/immortalwrt-mt798x-24.10.git
+        git push --force origin openwrt-24.10
+
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@main
+      with:
+        retain_days: 1
+        keep_minimum_runs: 1
