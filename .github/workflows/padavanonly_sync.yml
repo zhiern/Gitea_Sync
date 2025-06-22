@@ -1,4 +1,4 @@
-name: Sync to Padavanonly
+name: Padavanonly-immortalwrt
 
 on:
   workflow_dispatch:
