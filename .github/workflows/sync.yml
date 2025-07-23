@@ -1,19 +1,30 @@
-name: Sync immortalwrt-mt798x Fork
+name: Sync Fork Repositories
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 3 * * *'  # 每天凌晨3点同步（UTC）
+    - cron: '0 3 * * *'
 
 jobs:
   sync-dailook:
     name: Sync dailook to openwrt-21.02
     runs-on: ubuntu-latest
     steps:
-      - name: Clone your repository - openwrt-21.02
+      - name: Clone or init target branch
         run: |
-          git clone --single-branch --branch openwrt-21.02 https://ghp_${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-21
+          git clone https://ghp_${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-21
           cd repo-21
+
+          # 检查分支是否存在，不存在就从 upstream 创建
+          git ls-remote --heads origin openwrt-21.02 || (
+            git checkout --orphan openwrt-21.02
+            echo "# openwrt-21.02 created" > README.md
+            git add README.md
+            git commit -m "Initialize openwrt-21.02"
+            git push origin openwrt-21.02
+          )
+
+          git checkout openwrt-21.02
           git remote add upstream https://github.com/dailook/immortalwrt-mt798x.git
           git fetch upstream
           git rebase upstream/main || true
@@ -23,11 +34,22 @@ jobs:
     name: Sync padavanonly to openwrt-24.10-6.6
     runs-on: ubuntu-latest
     steps:
-      - name: Clone your repository - openwrt-24.10-6.6
+      - name: Clone or init target branch
         run: |
-          git clone --single-branch --branch openwrt-24.10-6.6 https://ghp_${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-24
+          git clone https://ghp_${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-24
           cd repo-24
+
+          # 检查分支是否存在，不存在就从 upstream 创建
+          git ls-remote --heads origin openwrt-24.10-6.6 || (
+            git checkout --orphan openwrt-24.10-6.6
+            echo "# openwrt-24.10-6.6 created" > README.md
+            git add README.md
+            git commit -m "Initialize openwrt-24.10-6.6"
+            git push origin openwrt-24.10-6.6
+          )
+
+          git checkout openwrt-24.10-6.6
           git remote add upstream https://github.com/padavanonly/immortalwrt-mt798x-6.6.git
           git fetch upstream
-          git rebase upstream/openwrt-24.10-6.6 || true
+          git rebase upstream/main || true
           git push origin openwrt-24.10-6.6 --force
