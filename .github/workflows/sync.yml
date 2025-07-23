@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Clone or init target branch
         run: |
-          git clone https://ghp_${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-21
+          git clone https://zhiern:${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-21
           cd repo-21
 
           # 检查分支是否存在，不存在就从 upstream 创建
@@ -34,22 +34,28 @@ jobs:
     name: Sync padavanonly to openwrt-24.10-6.6
     runs-on: ubuntu-latest
     steps:
-      - name: Clone or init target branch
+      - name: Clone your repository default branch
         run: |
-          git clone https://ghp_${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-24
+          git clone https://zhiern:${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-24
           cd repo-24
 
-          # 检查分支是否存在，不存在就从 upstream 创建
-          git ls-remote --heads origin openwrt-24.10-6.6 || (
-            git checkout --orphan openwrt-24.10-6.6
-            echo "# openwrt-24.10-6.6 created" > README.md
+          # 检查本地是否有目标分支
+          if git ls-remote --exit-code --heads origin openwrt-24.10-6.6; then
+            git checkout openwrt-24.10-6.6
+          else
+            git checkout -b openwrt-24.10-6.6
+            echo "# Init openwrt-24.10-6.6" > README.md
             git add README.md
-            git commit -m "Initialize openwrt-24.10-6.6"
+            git commit -m "Initialize openwrt-24.10-6.6 branch"
             git push origin openwrt-24.10-6.6
-          )
+          fi
 
-          git checkout openwrt-24.10-6.6
+          # 添加上游并同步
           git remote add upstream https://github.com/padavanonly/immortalwrt-mt798x-6.6.git
           git fetch upstream
+
+          # 如果你知道上游的主分支是 main，就同步它，否则可改为 master 或其他
           git rebase upstream/main || true
+
+          # 推送到你仓库
           git push origin openwrt-24.10-6.6 --force
