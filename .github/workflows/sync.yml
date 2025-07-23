@@ -1,0 +1,33 @@
+name: Sync immortalwrt-mt798x Fork
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'  # 每天凌晨3点同步（UTC）
+
+jobs:
+  sync-dailook:
+    name: Sync dailook to openwrt-21.02
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone your repository - openwrt-21.02
+        run: |
+          git clone --single-branch --branch openwrt-21.02 https://ghp_${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-21
+          cd repo-21
+          git remote add upstream https://github.com/dailook/immortalwrt-mt798x.git
+          git fetch upstream
+          git rebase upstream/main || true
+          git push origin openwrt-21.02 --force
+
+  sync-padavanonly:
+    name: Sync padavanonly to openwrt-24.10-6.6
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone your repository - openwrt-24.10-6.6
+        run: |
+          git clone --single-branch --branch openwrt-24.10-6.6 https://ghp_${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-24
+          cd repo-24
+          git remote add upstream https://github.com/padavanonly/immortalwrt-mt798x-6.6.git
+          git fetch upstream
+          git rebase upstream/openwrt-24.10-6.6 || true
+          git push origin openwrt-24.10-6.6 --force
