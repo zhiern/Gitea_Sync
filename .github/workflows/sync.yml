@@ -14,16 +14,6 @@ jobs:
         run: |
           git clone https://zhiern:${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-21
           cd repo-21
-
-          # 检查分支是否存在，不存在就从 upstream 创建
-          git ls-remote --heads origin openwrt-21.02 || (
-            git checkout --orphan openwrt-21.02
-            echo "# openwrt-21.02 created" > README.md
-            git add README.md
-            git commit -m "Initialize openwrt-21.02"
-            git push origin openwrt-21.02
-          )
-
           git checkout openwrt-21.02
           git remote add upstream https://github.com/dailook/immortalwrt-mt798x.git
           git fetch upstream
@@ -38,23 +28,7 @@ jobs:
         run: |
           git clone https://zhiern:${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-24
           cd repo-24
-
-          # 设置 Git 提交身份
-          git config --global user.email "zhiern@users.noreply.github.com"
-          git config --global user.name "actions-user"
-
-          # 检查并创建分支
-          if git ls-remote --exit-code --heads origin openwrt-24.10-6.6; then
-            git checkout openwrt-24.10-6.6
-          else
-            git checkout -b openwrt-24.10-6.6
-            echo "# Init openwrt-24.10-6.6" > README.md
-            git add README.md
-            git commit -m "Initialize openwrt-24.10-6.6 branch"
-            git push origin openwrt-24.10-6.6
-          fi
-
-          # 添加 upstream 并同步
+          git checkout openwrt-24.10-6.6
           git remote add upstream https://github.com/padavanonly/immortalwrt-mt798x-6.6.git
           git fetch upstream
           git rebase upstream/main || true
