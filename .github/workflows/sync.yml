@@ -39,7 +39,11 @@ jobs:
           git clone https://zhiern:${{ secrets.PAT }}@github.com/zhiern/immortalwrt-mt798x.git repo-24
           cd repo-24
 
-          # 检查本地是否有目标分支
+          # 设置 Git 提交身份
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 检查并创建分支
           if git ls-remote --exit-code --heads origin openwrt-24.10-6.6; then
             git checkout openwrt-24.10-6.6
           else
@@ -50,12 +54,8 @@ jobs:
             git push origin openwrt-24.10-6.6
           fi
 
-          # 添加上游并同步
+          # 添加 upstream 并同步
           git remote add upstream https://github.com/padavanonly/immortalwrt-mt798x-6.6.git
           git fetch upstream
-
-          # 如果你知道上游的主分支是 main，就同步它，否则可改为 master 或其他
           git rebase upstream/main || true
-
-          # 推送到你仓库
           git push origin openwrt-24.10-6.6 --force
