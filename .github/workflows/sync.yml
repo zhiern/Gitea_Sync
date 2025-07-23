@@ -40,8 +40,8 @@ jobs:
           cd repo-24
 
           # 设置 Git 提交身份
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "zhiern@users.noreply.github.com"
+          git config --global user.name "actions-user"
 
           # 检查并创建分支
           if git ls-remote --exit-code --heads origin openwrt-24.10-6.6; then
